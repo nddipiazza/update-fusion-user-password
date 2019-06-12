@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+group 'com.lucidworks'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.curator:curator-recipes:4.2.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+    compile 'at.favre.lib:bcrypt:0.8.0'
+    compile 'args4j:args4j:2.33'
+}
+
+jar {
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+
+    manifest {
+        attributes 'Implementation-Title': 'UpdateFusionUserPassword',
+            'Implementation-Version': version,
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date(),
+            'Built-JDK': System.getProperty('java.version'),
+            'Main-Class': 'UpdateFusionUserPassword'
+    }
+}
